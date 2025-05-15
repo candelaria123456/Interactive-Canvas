@@ -1,0 +1,217 @@
+<!--
+README:
+This is an interactive DOM traversal and manipulation application.
+It displays a 3-level element hierarchy and allows the user to:
+- Select nodes
+- Traverse up, down, and between siblings
+- Add or delete nodes with restrictions
+
+Author: Juan Dela Cruz
+Course: BSEd Math 3-A
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>DOM Traversal App</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+
+    header {
+      background: #f0f0f0;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+
+    .grandparent, .parent, .child {
+      padding: 10px;
+      margin: 10px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .grandparent {
+      background-color: #ffe0b2;
+    }
+
+    .parent {
+      background-color: #c5e1a5;
+      margin-left: 20px;
+    }
+
+    .child {
+      background-color: #b3e5fc;
+      margin-left: 40px;
+    }
+
+    .highlight {
+      border: 3px solid red;
+    }
+
+    button {
+      margin: 5px;
+      padding: 8px 12px;
+      border: none;
+      background-color: #007BFF;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Profile Header -->
+  <header>
+    <h2>Student Profile</h2>
+    <p><strong>Complete Name:</strong>John Lloyd Candelaria</p>
+    <p><strong>Sex:</strong> Male</p>
+    <p><strong>Address:</strong> Balaynan, Goa, Camarines Sur</p>
+    <p><strong>Course, Year, and Section:</strong> BSIT 2A</p>
+    <p><strong>Name of School:</strong> Partido State University</p>
+    <p><strong>Semester and Academic Year:</strong> 2nd Semester, AY 2024–2025</p>
+    <p><strong>Subject Code and Title:</strong>PF2 – Event Driven Programming</p>
+    <p><strong>Name of Subject Instructor:</strong> Arjay Abio</p>
+  </header>
+
+  <!-- Buttons for Actions -->
+  <div>
+    <button onclick="traverseUp()">Traverse Up</button>
+    <button onclick="traverseDown()">Traverse Down</button>
+    <button onclick="traversePrev()">Previous Sibling</button>
+    <button onclick="traverseNext()">Next Sibling</button>
+    <button onclick="addChild()">Add Child</button>
+    <button onclick="deleteNode()">Delete Selected</button>
+  </div>
+
+  <!-- DOM Hierarchy -->
+  <div id="tree">
+    <div class="grandparent">Grandparent
+      <div class="parent">Parent 1
+        <div class="child">Child 1</div>
+        <div class="child">Child 2</div>
+      </div>
+      <div class="parent">Parent 2
+        <div class="child">Child 3</div>
+        <div class="child">Child 4</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let selectedNode = null;
+
+    // Add event listener to all clickable nodes
+    function attachClickEvents() {
+      document.querySelectorAll('.grandparent, .parent, .child').forEach(node => {
+        node.addEventListener('click', function (e) {
+          e.stopPropagation(); // Prevent bubbling
+          selectNode(this);
+        });
+      });
+    }
+
+    // Select and highlight a node
+    function selectNode(node) {
+      if (selectedNode) selectedNode.classList.remove('highlight');
+      selectedNode = node;
+      selectedNode.classList.add('highlight');
+    }
+
+    // Traverse to parent node
+    function traverseUp() {
+      if (selectedNode && selectedNode.parentElement.closest('.grandparent, .parent')) {
+        selectNode(selectedNode.parentElement.closest('.grandparent, .parent'));
+      }
+    }
+
+    // Traverse to first child node
+    function traverseDown() {
+      if (selectedNode) {
+        const firstChild = selectedNode.querySelector('.parent, .child');
+        if (firstChild) selectNode(firstChild);
+      }
+    }
+
+    // Traverse to previous sibling
+    function traversePrev() {
+      if (selectedNode && selectedNode.previousElementSibling) {
+        selectNode(selectedNode.previousElementSibling);
+      }
+    }
+
+    // Traverse to next sibling
+    function traverseNext() {
+      if (selectedNode && selectedNode.nextElementSibling) {
+        selectNode(selectedNode.nextElementSibling);
+      }
+    }
+
+    // Add child node
+    function addChild() {
+      if (!selectedNode) {
+        alert("Please select a node first.");
+        return;
+      }
+
+      if (selectedNode.classList.contains('grandparent')) {
+        // Add a new parent with 2 children
+        const newParent = document.createElement('div');
+        newParent.className = 'parent';
+        newParent.innerText = 'New Parent';
+
+        const child1 = document.createElement('div');
+        child1.className = 'child';
+        child1.innerText = 'New Child 1';
+
+        const child2 = document.createElement('div');
+        child2.className = 'child';
+        child2.innerText = 'New Child 2';
+
+        newParent.appendChild(child1);
+        newParent.appendChild(child2);
+        selectedNode.appendChild(newParent);
+      } else if (selectedNode.classList.contains('parent')) {
+        // Add a single new child
+        const newChild = document.createElement('div');
+        newChild.className = 'child';
+        newChild.innerText = 'New Child';
+        selectedNode.appendChild(newChild);
+      } else {
+        alert("Cannot add a child to a child node.");
+      }
+      attachClickEvents(); // rebind events
+    }
+
+    // Delete selected node
+    function deleteNode() {
+      if (!selectedNode) {
+        alert("Please select a node first.");
+        return;
+      }
+
+      if (selectedNode.classList.contains('grandparent')) {
+        alert("Cannot delete the grandparent node.");
+        return;
+      }
+
+      const toDelete = selectedNode;
+      traverseUp(); // Select parent before deleting
+      toDelete.remove();
+    }
+
+    // Initial setup
+    attachClickEvents();
+  </script>
+
+</body>
+</html>

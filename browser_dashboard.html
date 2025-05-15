@@ -1,0 +1,139 @@
+<!--
+README:
+This is a Browser Environment Dashboard that uses JavaScript to display browser, screen, page, and navigation information.
+Includes:
+- Student profile header
+- Browser info using navigator and screen
+- Page controls using location and document
+- Navigation buttons using history and location
+- Background color changes dynamically based on screen width
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Browser Dashboard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      transition: background-color 0.5s;
+    }
+    header {
+      background-color: #f0f0f0;
+      padding: 20px;
+      border-bottom: 2px solid #ccc;
+    }
+    section {
+      margin-top: 20px;
+    }
+    h2 {
+      border-bottom: 1px solid #ccc;
+    }
+    button {
+      margin: 5px;
+      padding: 8px 12px;
+      border: none;
+      background-color: #007BFF;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .info {
+      background: #f9f9f9;
+      padding: 10px;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body onload="updateStyle()" onresize="updateStyle()">
+
+  <header>
+    <h1>Student Profile</h1>
+    <p><strong>Complete Name:</strong> John Lloyd Candelaria</p>
+    <p><strong>Sex:</strong> Male</p>
+    <p><strong>Address:</strong>Balaynan,Goa, Camarines Sur</p>
+    <p><strong>Course, Year, and Section:</strong> BSIT 2A</p>
+    <p><strong>Name of School:</strong> Partido State University</p>
+    <p><strong>Semester and Academic Year:</strong> 2nd Semester, AY 2024–2025</p>
+    <p><strong>Subject Code and Title:</strong>PF2 – Event Driven Programming</p>
+    <p><strong>Name of Subject Instructor:</strong> Arjay Abio</p>
+  </header>
+
+  <section>
+    <h2>Part A: Browser Information</h2>
+    <div class="info" id="browserInfo"></div>
+  </section>
+
+  <section>
+    <h2>Part B: Page Information and Controls</h2>
+    <div class="info" id="pageInfo"></div>
+    <button onclick="changeTitle()">Change Page Title</button>
+  </section>
+
+  <section>
+    <h2>Part C: Navigation Controls</h2>
+    <button onclick="location.reload()">Reload Page</button>
+    <button onclick="location.href='https://www.example.com'">Go to Example.com</button>
+    <button onclick="history.back()">Go Back</button>
+    <button onclick="history.forward()">Go Forward</button>
+  </section>
+
+  <script>
+    // Part A: Browser Information
+    function displayBrowserInfo() {
+      const browserInfo = `
+        <p><strong>Browser:</strong> ${navigator.appName}</p>
+        <p><strong>Version:</strong> ${navigator.appVersion}</p>
+        <p><strong>Platform:</strong> ${navigator.platform}</p>
+        <p><strong>Java Enabled:</strong> ${navigator.javaEnabled()}</p>
+        <p><strong>Screen Resolution:</strong> ${screen.width} x ${screen.height}</p>
+        <p><strong>Available Screen Size:</strong> ${screen.availWidth} x ${screen.availHeight}</p>
+        <p><strong>Color Depth:</strong> ${screen.colorDepth}</p>
+      `;
+      document.getElementById("browserInfo").innerHTML = browserInfo;
+    }
+
+    // Part B: Page Info
+    function displayPageInfo() {
+      const pageInfo = `
+        <p><strong>Current URL:</strong> ${location.href}</p>
+        <p><strong>Hostname:</strong> ${location.hostname}</p>
+        <p><strong>Page Title:</strong> <span id="titleDisplay">${document.title}</span></p>
+      `;
+      document.getElementById("pageInfo").innerHTML = pageInfo;
+    }
+
+    // Function to change the title
+    function changeTitle() {
+      const newTitle = prompt("Enter new page title:");
+      if (newTitle) {
+        document.title = newTitle;
+        document.getElementById("titleDisplay").textContent = newTitle;
+      }
+    }
+
+    // Part D: Dynamic Background
+    function updateStyle() {
+      const width = window.innerWidth;
+      if (width < 600) {
+        document.body.style.backgroundColor = "blue";
+      } else if (width < 992) {
+        document.body.style.backgroundColor = "green";
+      } else {
+        document.body.style.backgroundColor = "orange";
+      }
+    }
+
+    // Initialize on load
+    displayBrowserInfo();
+    displayPageInfo();
+  </script>
+
+</body>
+</html>

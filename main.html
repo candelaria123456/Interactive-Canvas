@@ -1,0 +1,63 @@
+<!--
+README:
+This program creates an interactive canvas where users can:
+- Add circles by clicking
+- Select circles (turns red)
+- Drag to move circles
+- Scroll to resize (with limits)
+- Press Delete to remove
+
+Built using vanilla HTML5, CSS, and JavaScript with no external libraries.
+
+Student: Juan Dela Cruz | BSEd Math 3-A
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Interactive Circle Canvas</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      text-align: center;
+    }
+
+    header {
+      text-align: left;
+      margin-bottom: 20px;
+      background-color: #f2f2f2;
+      padding: 15px;
+      border-radius: 8px;
+    }
+
+    canvas {
+      border: 2px solid #444;
+      display: block;
+      margin: 0 auto;
+      cursor: crosshair;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Profile Header -->
+  <header>
+    <h2>Student Profile</h2>
+    <p><strong>Complete Name:</strong>John Lloyd Candelaria</p>
+    <p><strong>Sex:</strong> Male</p>
+    <p><strong>Address:</strong> Balaynan, Goa, Camarines Sur</p>
+    <p><strong>Course, Year, and Section:</strong> BSIT 2A</p>
+    <p><strong>Name of School:</strong>Partido State University</p>
+    <p><strong>Semester and Academic Year:</strong> 2nd Semester, AY 2024–2025</p>
+    <p><strong>Subject Code and Title:</strong> PF2 – Event Driven Programming</p>
+    <p><strong>Name of Subject Instructor:</strong> Arjay Abio</p>
+  </header>
+
+  <!-- Canvas Element -->
+  <canvas id="canvas" width="600" height="400"></canvas>
+
+  <script src="script.js"></script>
+</body>
+</html>
